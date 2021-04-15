@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasklist</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+</head>
+
+<body>
+    <section class="container">
+        <section class="row">
+            <section class="col s12">
+                <section id="main" class="card">
+                    <section class="card-content">
+                        <span class="card-title">Task List</span>
+                        <section class="row">
+                            <form id="task-form" action="/addTask" method="POST">
+                                <section class="input-field col s12">
+                                    <input type="text" name="task" id="task">
+                                    <label for="task">New Task</label>
+                                </section>
+                                <input type="submit" value="Add Task" class="btn">
+                            </form>
+                        </section>
+                    </section>
+                    <section class="card-action">
+                        <h5>Tasks</h5>
+                        <section class="input-field col s12">
+                            <input type="text" name="filter" id="filter">
+                            <label for="filter">Filter Tasks</label>
+                        </section>
+                        <ul class="collection">
+                            <% for(let i=0; i < info.length; i++) {%>
+                                <li class="collection-item">
+                                    <span data-id="<%= info[i]._id %>"><%= info[i].task %></span>
+                                    <a class='delete-item secondary-content'>
+                                        <i class='fa fa-remove'></i>
+                                    </a>
+                                    <div>
+                                        <button type="submit" class="btn edit secondary-content" >
+                                           Edit task
+                                        </button>
+                                       <input class="editInput" >
+                                    </div>
+                                </li>
+                                <% } %>
+                        </ul>
+                        <a href="#" class="clear-tasks btn black">Clear Tasks</a>
+                    </section>
+                </section>
+            </section>
+        </section>
+    </section>
+</body>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src='main.js'></script>
+
+</html>
