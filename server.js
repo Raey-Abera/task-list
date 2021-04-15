@@ -4,12 +4,24 @@ const express = require('express')
 const app = express()
 // assigning MongoClient to mongodb MongoClient which is a module
 const MongoClient = require('mongodb').MongoClient
+//object Id 
+const ObjectId = require('mongodb').ObjectID
 // assigning PORT  2121
 const PORT = 2121
-//object Id 
-const ObjectId = require('mongodb').ObjectID;
 // requiring dot env 
 require('dotenv').config()
+//salting passwords for hashing
+const bcrypt = require('bcrypt')
+//
+const passport = require('passport')
+//session
+const session = require('express-session')
+//passport 
+// const intializePassport = require('./passport-config')
+// intializePassport(
+//     passport,
+//     email => users.find(user => user.email === email)
+// )
 
 let db,
     // getting connection string from env file 
@@ -29,9 +41,20 @@ app.use(express.static('./public'))
 
 // does what body parser does 
 app.use(express.urlencoded({ extended: true }))
+//session
+// app.use(session({
+//     secret: process.env.SESSION_SECRET
+// }))
 
 // send response as json format
 app.use(express.json())
+
+app.get('/login', (request, response) => {
+    response.render('login.ejs')
+})
+app.get('/register', (request, response) => {
+    response.render('register.ejs')
+})
 
 app.get('/', (request, response) => {
     db.collection('taskList').find().sort({ likes: -1 }).toArray()
@@ -41,6 +64,24 @@ app.get('/', (request, response) => {
         })
         .catch(error => console.error(error))
     //response.send("hello")
+})
+
+app.post('/register', async (request, response) => {
+    console.log("started")
+    const passwordHash = await bcrypt.hash(request.body.password, 10)
+    console.log('request.body.name,', request.body.name)
+    try {
+        db.collection('users').insertOne({
+            name: request.body.name,
+            email: request.body.email,
+            password: passwordHash
+        })
+        console.log('task Added')
+        response.redirect('/login')
+    } catch (error) {
+        console.error(error)
+        response.redirect('/register')
+    }
 })
 
 app.post('/addTask', (request, response) => {
