@@ -35,15 +35,17 @@
                         <ul class="collection">
                             <% for(let i=0; i < info.length; i++) {%>
                                 <li class="collection-item">
-                                    <span data-id="<%= info[i]._id %>"><%= info[i].task %></span>
+                                    <span data-id="<%= info[i]._id %>">
+                                        <%= info[i].task %>
+                                    </span>
                                     <a class='delete-item secondary-content'>
                                         <i class='fa fa-remove'></i>
                                     </a>
                                     <div>
-                                        <button type="submit" class="btn edit secondary-content" >
-                                           Edit task
+                                        <button type="submit" class="btn edit secondary-content">
+                                            Edit task
                                         </button>
-                                       <input class="editInput" >
+                                        <input class="editInput">
                                     </div>
                                 </li>
                                 <% } %>

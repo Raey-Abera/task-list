@@ -42,13 +42,13 @@ const clearTask = () => {
 }
 
 const filterTasks = e => {
-    //keep track of ht ekeys usng 
+    //keep track of the keys 
     const text = e.target.value.toLowerCase()
     //loop through all the li's
     document.querySelectorAll('.collection-item').forEach(task => {
         //extract the phrase(string) from each li
         const phrase = task.firstChild.textContent
-        //if the text the user is tryping doesn't exist in the phrase
+        //if the text the user is typing doesn't exist in the phrase,
         if (phrase.toLowerCase().indexOf(text) === -1) {
             //then make li diseapper
             task.style.display = 'none'
@@ -72,7 +72,7 @@ async function editTask() {
             // send text as  json 
             body: JSON.stringify({
                 'task': text,
-                'id' : id
+                'id': id
             })
         })
         // response from the server
@@ -108,9 +108,7 @@ clearButton.addEventListener('click', deleteAll)
 
 //loads all event listeners
 const loadEventListeners = () => {
-    //
     filter.addEventListener('keydown', filterTasks)
 
 }
-
 loadEventListeners()

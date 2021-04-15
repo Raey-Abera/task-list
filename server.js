@@ -8,7 +8,7 @@ const MongoClient = require('mongodb').MongoClient
 const PORT = 2121
 //object Id 
 const ObjectId = require('mongodb').ObjectID;
-// reuiring dot env to env variables
+// requiring dot env 
 require('dotenv').config()
 
 let db,
@@ -27,7 +27,7 @@ app.set('view engine', 'ejs')
 // tells express to render the public folder
 app.use(express.static('./public'))
 
-// does what body parser did 
+// does what body parser does 
 app.use(express.urlencoded({ extended: true }))
 
 // send response as json format
@@ -36,7 +36,7 @@ app.use(express.json())
 app.get('/', (request, response) => {
     db.collection('taskList').find().sort({ likes: -1 }).toArray()
         .then(data => {
-            // rendering data from data base to ejs
+            // rendering data from database to ejs
             response.render('index.ejs', { info: data })
         })
         .catch(error => console.error(error))
@@ -56,7 +56,7 @@ app.post('/addTask', (request, response) => {
 })
 
 app.delete('/deleteTask', (request, response) => {
-    // look up stage name in the db and delete them 
+    // look up a task in the db and deletes it 
     db.collection('taskList').deleteOne({ task: request.body.task })
         .then(result => {
             console.log('Task Deleted')
@@ -67,9 +67,9 @@ app.delete('/deleteTask', (request, response) => {
 })
 
 app.put('/editTask', (request, response) => {
-    //looks in rappers collection for matching key value pairs in ascending order (time of creation "oldest one")
+    //looks in taskList collection for matching key value pairs in ascending order (time of creation "oldest one")
     db.collection('taskList').findOneAndUpdate({ _id: ObjectId(request.body.id) }, {
-        // if it finds the fields it will updates with set
+        // if it finds the fields it will update with set
         $set: {
             task: request.body.task
         }
@@ -79,12 +79,13 @@ app.put('/editTask', (request, response) => {
         upsert: false
     })
         .then(result => {
-            // sends 'Like Added' to client
+            // sends 'Updated task' to client
             response.json('Updated task')
         })
         .catch(error => console.error(error))
 })
 
+//
 app.delete('/clearAllTasks', (request, response) => {
     console.log('working?')
 
